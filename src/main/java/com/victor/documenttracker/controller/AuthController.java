@@ -30,6 +30,7 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
+    @PostMapping("/login")
     public String login(@RequestBody LoginRequest loginRequest){
         Optional<User> userOptional = userRepository.findByUsername(loginRequest.getUsername());
         if (userOptional.isPresent()){
@@ -48,7 +49,7 @@ public class AuthController {
     public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
         User user = new User();
         user.setUsername(request.getUsername());
-        user.setPassword(request.getPassword());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
         userService.registerUser(user);
         return ResponseEntity.ok("User registered successfully");
     }
