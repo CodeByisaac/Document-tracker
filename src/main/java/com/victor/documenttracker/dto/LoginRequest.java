@@ -1,6 +1,6 @@
 package com.victor.documenttracker.dto;
 
-//simple class get users credentials
+//get users credentials
 public class LoginRequest {
     private String username;
     private String password;
