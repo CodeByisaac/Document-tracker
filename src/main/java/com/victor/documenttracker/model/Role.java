@@ -1,27 +1,26 @@
 package com.victor.documenttracker.model;
-import jakarta.persistence.*;
-import java.util.Set;
 
-@Entity
-@Table(name = "roles")
-public class Role {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
-    @Column(nullable = false, unique = true)
-    private String name;
+import java.util.List;
 
-    @ManyToMany(mappedBy = "roles")
-    private Set<User> user;
+public enum Role{
+    USER("ROLE_USER", List.of("READ_OWN_DOCUMENT")),
+    MANAGER("ROLE_MANAGER", List.of("READ_TEAM_DOCUMENTS", "MANAGER_TEAM")),
+    ADMIN("ROLE_ADMIN", List.of("READ_ALL", "DELETE_ANY", "MANAGE_USERS"));
 
-    public Role() {}
+    private final String authority;
+    private final List<String> permissions;
 
-    public Role(String name){
-        this.name = name;
+    Role(String authority, List<String> permissions) {
+        this.authority = authority;
+        this.permissions = permissions;
     }
 
-    public String getName(){
-        return name;
+    public String getAuthority(){
+        return authority;
+    }
+
+    public List<String> getPermissions(){
+        return permissions;
     }
 }
