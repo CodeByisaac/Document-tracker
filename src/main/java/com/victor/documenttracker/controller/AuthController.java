@@ -9,6 +9,8 @@ import com.victor.documenttracker.security.JwtUtil;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +41,6 @@ public class AuthController {
             if(passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())){
                 return jwtUtil.generateToken(user.getUsername());
             }
-
         }
         return "Invalid username or password";
 
@@ -53,5 +54,4 @@ public class AuthController {
         userService.registerUser(user);
         return ResponseEntity.ok("User registered successfully");
     }
-
 }
