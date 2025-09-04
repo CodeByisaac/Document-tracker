@@ -5,7 +5,7 @@ import java.util.List;
 
 public enum Role{
     USER("ROLE_USER", List.of("READ_OWN_DOCUMENT")),
-    MANAGER("ROLE_MANAGER", List.of("READ_TEAM_DOCUMENTS", "MANAGER_TEAM")),
+    MANAGER("ROLE_MANAGER", List.of("READ_TEAM_DOCUMENTS", "MANAGE_TEAM")),
     ADMIN("ROLE_ADMIN", List.of("READ_ALL", "DELETE_ANY", "MANAGE_USERS"));
 
     private final String authority;
