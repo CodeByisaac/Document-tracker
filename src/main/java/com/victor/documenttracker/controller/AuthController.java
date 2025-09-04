@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/auth") //base path for login routes
+@RequestMapping("/api/auth") //base path for login routes
 public class AuthController {
     @Autowired
     private UserRepository userRepository;

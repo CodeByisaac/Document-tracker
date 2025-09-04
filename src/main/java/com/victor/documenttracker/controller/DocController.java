@@ -5,12 +5,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/documents")
+@RequestMapping("/api/documents")
 public class DocController {
     //@Autowired
-
-
-
 
     /*
     @PostMapping("/upload")
