@@ -1,9 +1,9 @@
 package com.victor.documenttracker.model;
-
+import lombok.*;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
-
+@Data
 @Entity
 @Table(name = "documents")
 public class Document {
@@ -18,7 +18,7 @@ public class Document {
     private String originalName;
 
     @Column(nullable = false)
-    private Long fileSize;
+    private String path;
 
     @ManyToOne
     @JoinColumn(name = "uploaded_by", nullable = false)
@@ -36,75 +36,13 @@ public class Document {
 
     public Document() {}
 
-    public Document(String filename, String originalName, Long fileSize, User uploadedBy, String status, LocalDateTime uploadedAt, String category){
+    public Document(String filename, String originalName, String path, User uploadedBy, String status, LocalDateTime uploadedAt, String category){
         this.filename = filename;
         this.originalName = originalName;
-        this.fileSize = fileSize;
+        this.path = path;
         this.uploadedBy = uploadedBy;
         this.uploadedAt = uploadedAt;
         this.status = status;
         this.category = category;
     }
-
-    //getters setters
-    public Long getId(){
-        return id;
-    }
-
-    public String getFilename(){
-        return filename;
-    }
-
-    public void setFilename(String filename){
-        this.filename = filename;
-    }
-
-    public String getOriginalName(){
-        return originalName;
-    }
-
-    public void setOriginalName(String originalName){
-        this.originalName = originalName;
-    }
-
-    public Long getFileSize(){
-        return fileSize;
-    }
-
-    public void setFileSize(Long fileSize){
-        this.fileSize = fileSize;
-    }
-
-    public User getUploadedBy(){
-        return uploadedBy;
-    }
-
-    public void setUploadedBy(User uploadedBy){
-        this.uploadedBy = uploadedBy;
-    }
-
-    public LocalDateTime getUploadedAt(){
-        return uploadedAt;
-    }
-
-    public void setUploadedAt(LocalDateTime uploadedAt){
-        this.uploadedAt = uploadedAt;
-    }
-
-    public String getStatus(){
-        return status;
-    }
-
-    public void setStatus(String status){
-        this.status = status;
-    }
-
-    public String getCategory(){
-        return category;
-    }
-
-    public void setCategory(String category){
-        this.category = category;
-    }
-
 }
