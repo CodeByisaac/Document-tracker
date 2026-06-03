@@ -18,7 +18,7 @@ import com.victor.documenttracker.repository.UserRepository;
 
 import java.io.IOException;
 import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.List;
 
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
@@ -45,12 +45,13 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 if(userOptional.isPresent()){
                     User user = userOptional.get();
 
+                    //stream of permission string from enum
+                    //java.util.List<org.springframework.security.core.authority.SimpleGranted>
+
                     //create authentication token using roles
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         user, null,
-                        user.getRoles().stream()
-                            .map(role -> new org.springframework.security.core.authority.SimpleGrantedAuthority(role.getName()))
-                            .collect(Collectors.toList())
+                            List.of(new org.springframework.security.core.authority.SimpleGrantedAuthority(user.getRole().getAuthority()))
                     );
 
                     //add request details
