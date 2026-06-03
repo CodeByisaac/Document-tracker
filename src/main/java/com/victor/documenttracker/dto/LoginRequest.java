@@ -1,6 +1,9 @@
 package com.victor.documenttracker.dto;
 
+import lombok.*;
+
 //get users credentials
+@Data
 public class LoginRequest {
     private String username;
     private String password;

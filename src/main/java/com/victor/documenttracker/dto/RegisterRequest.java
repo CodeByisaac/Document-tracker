@@ -1,5 +1,8 @@
 package com.victor.documenttracker.dto;
 
+import lombok.*;
+
+@Data
 public class RegisterRequest {
     private String username;
     private String password;
