@@ -11,11 +11,8 @@ public class Document {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
-    @Column(nullable = false)
-    private String filename;
-
-    @Column(nullable = false)
-    private String originalName;
+    @Column(name = "doc_name", nullable = false)
+    private String name;
 
     @Column(nullable = false)
     private String path;
@@ -36,9 +33,8 @@ public class Document {
 
     public Document() {}
 
-    public Document(String filename, String originalName, String path, User uploadedBy, String status, LocalDateTime uploadedAt, String category){
-        this.filename = filename;
-        this.originalName = originalName;
+    public Document(String name, String originalName, String path, User uploadedBy, String status, LocalDateTime uploadedAt, String category){
+        this.name = name;
         this.path = path;
         this.uploadedBy = uploadedBy;
         this.uploadedAt = uploadedAt;
