@@ -2,56 +2,58 @@ package com.victor.documenttracker.controller;
 
 import com.victor.documenttracker.dto.LoginRequest;
 import com.victor.documenttracker.dto.RegisterRequest;
-import com.victor.documenttracker.service.UserService;
 import com.victor.documenttracker.model.User;
 import com.victor.documenttracker.repository.UserRepository;
 import com.victor.documenttracker.security.JwtUtil;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/auth") //base path for login routes
+@RequestMapping("/api/auth")
 public class AuthController {
-    @Autowired
-    private UserRepository userRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    @Autowired private UserRepository userRepository;
 
-    @Autowired
-    private JwtUtil jwtUtil;
+    @Autowired private PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private UserService userService;
+    @Autowired private JwtUtil jwtUtil;
 
     @PostMapping("/login")
-    public String login(@RequestBody LoginRequest loginRequest){
+    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest){
         Optional<User> userOptional = userRepository.findByUsername(loginRequest.getUsername());
+
         if (userOptional.isPresent()){
             User user = userOptional.get();
-
             if(passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())){
-                return jwtUtil.generateToken(user.getUsername());
+                String token = jwtUtil.generateToken(user.getUsername());
+                return ResponseEntity.ok(Map.of("token", token));
             }
         }
-        return "Invalid username or password";
-
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
     }
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
-        User user = new User();
-        user.setUsername(request.getUsername());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
-        userService.registerUser(user);
+        if (userRepository.findByUsername(request.getUsername()).isPresent()) {
+            return ResponseEntity.badRequest().body("Username already taken");
+        }
+
+        User user = new User(
+                request.getUsername(),
+                passwordEncoder.encode(request.getPassword()),
+                request.getEmail(),
+                com.victor.documenttracker.model.Role.USER
+        );
+
+        userRepository.save(user);
         return ResponseEntity.ok("User registered successfully");
     }
 }
